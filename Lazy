@@ -1,0 +1,113 @@
+#!/bin/bash
+#-=-=-=-=-=- [ Banner ] =-=-=-=-=-=-
+cat << "EOF" 
+
+((
+\\``.
+\_`.``-.
+( `.`.` `._
+ `._`-.    `._
+   \`--.   ,' `.
+    `--._  `.  .`.
+     `--.--- `. ` `.
+         `.--  `;  .`._
+           :-   :   ;. `.__,.,__ __
+            `\  :       ,-(     ';o`>.
+              `-.`:   ,'   `._ .:  (,-`,
+                 \    ;      ;.  ,:
+             ,"`-._>-:        ;,'  `---.,---.
+             `>'"  "-`       ,'   "":::::".. `-.
+              `;"'_,  (\`\ _ `:::::::::::'"     `---.
+               `-(_,' -'),)\`.       _      .::::"'  `----._,-"")
+                   \_,': `.-' `-----' `--;-.   `.   ``.`--.____/
+                     `-^--'                \(-.  `.``-.`-=:-.__)
+Twitter ⟹ @Mohamed101Hamdi                `  `.`.`._`.-._`--.)
+GitHub ⟹ https://github.com/mohamed101hamdi     `-^---^--.`--
+
+BY» Mohamed Hamdi
+
+EOF
+#-=-=-=-=-=- [       ] =-=-=-=-=-=-
+nocolor="\033[0m"
+red="\033[0;31m"
+blue="\033[0;34m"
+green="\033[0;32m"
+yellow="\033[0;33m"
+red_b="\033[101m"
+echo -e "${green}______________________________________________________${nocolor}"
+echo -e "${red_b}  ✎If You Want To Cancel Any Operation Click ✄[CTRL+C]${nocolor}${nocolor}"
+echo "                                                                   "
+echo -e "${blue}⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯${nocolor}"
+echo "                        "
+read -p " ❅Please Enter The Web Site :⟹  " web
+echo "                            "
+if [ -z $web  ]
+then
+echo -e "${red} =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=${nocolor}"
+echo -e "${red} ❅The Execute :⟹ ./Lazy ${nocolor}\r\n👍"
+echo -e "${red} ❅Example :⟹ Please Enter The Web Site :⟹ mohamed101hamdi.com${nocolor}"
+echo -e "${red} =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=${nocolor}"
+exit
+else
+
+echo "============================================="
+echo "                                                                   "
+echo -e " ${blue}[*]${nocolor} The Target ⟹ ${red} ${web} ${nocolor}\r\n"
+echo -e "${yellow}   ** 🧐 Starting Enumeration 🧐 **${nocolor}"
+echo "============================================="
+fi
+#================================================================================#
+echo "                                          "
+echo "                                          "
+web_info(){
+  echo -e "${yellow}*The First [+]⟹ Web Information Collection -${nocolor}"
+  echo "                                        "
+  whatweb -a 3 --no-errors -v $web
+  echo "                                        "
+  echo " __________________"
+  echo -e "${yellow} ■ Firewall Type 👇${nocolor}"
+  echo " ------------------"
+  wafw00f  -a -v -r $web
+  echo -e "${blue}========================================================${nocolor} "
+}
+web_info
+echo "                                          "
+echo "                                          "
+fuzz_dir(){
+  echo -e "${yellow}*The Scond [+]⟹ Fuzzing Directory -${nocolor}"
+  ffuf -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt  -u https://$web/FUZZ  -mc 200   
+  dirsearch -u $web
+  dirb  https://www.$web/  
+  echo -e "${blue}========================================================${nocolor} "
+}
+fuzz_dir
+echo "                                          "
+echo "                                          "
+sub_domain(){
+  echo -e "${yellow}*The Third [+]⟹ Sub_Domain Information Collection -${nocolor}"
+  echo "                                        "
+  amass enum -active -d $web
+  echo -e "${blue}========================================================${nocolor} "
+}
+sub_domain
+echo "                                          "
+echo "                                          "
+report_info(){
+  echo -e "${yellow}*The Fourth [+]⟹ Web Report -${nocolor}"
+  echo -e "${red_b}  ✎If There Is a Delay Click ✄[CTRL+C]${nocolor}${nocolor}"
+  echo "                                        "
+  nikto   --url=$web --port=443
+  echo -e "${blue}========================================================${nocolor} "
+}
+report_info
+echo "                                          "
+echo "                                          "
+dns_info(){
+  echo -e "${yellow}*The Fifth [+]⟹ DNS Information Collection -${nocolor}"
+  echo "                                        "
+  dnsenum $web -w -d 5s
+  echo -e "${blue}========================================================${nocolor}"  
+}
+dns_info
+#================================================================================#
+#                      BY : Mohamed Hamdi
