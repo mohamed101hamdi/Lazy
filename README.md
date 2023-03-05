@@ -7,7 +7,7 @@ Collect Informations
  
 [+] Run script :
   - cd Lazy
-  - chmode +x Lazy
+  - chmod +x Lazy
   - ./Lazy
   
 [+] Hint --> When you run the script and ask you to type the [url] , do not write [https://] but just type the domain :EX-> mohamed.com 
